@@ -1,0 +1,41 @@
+# @Author: Guan Gui <guiguan>
+# @Date:   2016-01-21T00:44:50+11:00
+# @Email:  root@guiguan.net
+# @Last modified by:   guiguan
+# @Last modified time: 2016-01-21T00:44:57+11:00
+
+
+# See https://atom.io/docs/latest/hacking-atom-package-word-count#menus for more details
+'context-menu':
+  'atom-text-editor': [
+    {
+      'label': 'Add File Header'
+      'command': 'file-header:add'
+    },
+    {
+      'label': 'Update File Header'
+      'command': 'file-header:update'
+    }
+  ]
+'menu': [
+  {
+    'label': 'Packages'
+    'submenu': [
+      'label': 'File Header'
+      'submenu': [
+        {
+          'label': 'Add Header'
+          'command': 'file-header:add'
+        },
+        {
+          'label': 'Disable Auto Update'
+          'command': 'file-header:toggleAutoUpdateEnabledStatus'
+        },
+        {
+          'label': 'Update Header'
+          'command': 'file-header:update'
+        }
+      ]
+    ]
+  }
+]
