@@ -1,9 +1,8 @@
-# File Header
-#
 # @Author: Guan Gui <guiguan>
 # @Date:   2016-01-21T02:00:17+11:00
+# @Email:  root@guiguan.net
 # @Last modified by:   guiguan
-# @Last modified time: 2016-01-21T02:00:58+11:00
+# @Last modified time: 2016-01-21T02:07:53+11:00
 
 
 {CompositeDisposable} = require 'atom'
