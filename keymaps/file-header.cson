@@ -2,7 +2,7 @@
 # @Date:   2016-01-21T00:44:03+11:00
 # @Email:  root@guiguan.net
 # @Last modified by:   guiguan
-# @Last modified time: 2016-01-21T00:44:10+11:00
+# @Last modified time: 2016-01-21T22:02:34+11:00
 
 
 # Keybindings require three things to be fully defined: A selector that is
@@ -14,5 +14,5 @@
 
 # For more detailed documentation see
 # https://atom.io/docs/latest/behind-atom-keymaps-in-depth
-'atom-workspace':
-  'alt-cmd-h': 'file-header:add'
+'atom-text-editor:not(.mini)':
+  'shift-cmd-H': 'file-header:add'

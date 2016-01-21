@@ -2,7 +2,7 @@
 # @Date:   2016-01-21T02:00:17+11:00
 # @Email:  root@guiguan.net
 # @Last modified by:   guiguan
-# @Last modified time: 2016-01-21T02:07:53+11:00
+# @Last modified time: 2016-01-21T22:01:06+11:00
 
 
 {CompositeDisposable} = require 'atom'
@@ -83,13 +83,9 @@ module.exports = FileHeader =
         @update()
 
     @subscriptions.add atom.commands.add 'atom-workspace',
-      'file-header:add', => @add()
-
-    @subscriptions.add atom.commands.add 'atom-workspace',
-      'file-header:toggleAutoUpdateEnabledStatus', => @toggleAutoUpdateEnabledStatus()
-
-    @subscriptions.add atom.commands.add 'atom-workspace',
-      'file-header:update', => @update()
+      'file-header:add': => @add()
+      'file-header:toggleAutoUpdateEnabledStatus': => @toggleAutoUpdateEnabledStatus()
+      'file-header:update': => @update()
 
   serialize: ->
     @state
