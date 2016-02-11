@@ -3,7 +3,7 @@
 @Date:   2016-01-21T00:47:29+11:00
 @Email:  root@guiguan.net
 @Last modified by:   guiguan
-@Last modified time: 2016-01-21T22:39:53+11:00
+@Last modified time: 2016-02-12T00:27:54+08:00
 -->
 # FileHeader for Atom
 FileHeader allows you to customize, add, update and cooperate your authoring information in header comment like this:
@@ -17,8 +17,8 @@ Just search for `file-header` in Atom `Settings > Install`, and press `Install`.
 
 # Usage
 1. Configure your real name, username and email in FileHeader's settings.
-2. Use `shift-cmd-H` to add new header for current editing file. You can also use menu item from menu bar `Packages > File Header` or context menu `Add File Header`.
-3. Just hit `cmd-s` to save and your header's last modified info will be automatically updated.
+2. Use <kbd>shift-cmd-H</kbd> to add new header for current editing file. You can also use menu item from menu bar `Packages > File Header` or context menu `Add File Header` to do so. Or, you can turn on `Enable Auto Adding Header` in the settings to add a header for a new file when you save your the file.
+3. Just hit <kbd>cmd-s</kbd> to save and your header's last modified info will be automatically updated.
 
 # Customise Template
 FileHeader came with a pre-defiend language-to-template mappings (`lang-mapping.json`) and bunch of template files (`templates/*`). Check them out in the `lib` directory of FileHeader package. You are free to override or partially override them in your own config directory. Check out the option `Config Directory Path` from FileHeader settings for details.
@@ -49,6 +49,7 @@ Here are a list of language-to-template mappings I came up with. Feel free to ma
 |source.js.rails source.js.jquery|C.tmpl|
 |source.litcoffee|HTML.tmpl|
 |source.makefile|ShellScript.tmpl|
+|source.matlab|Erlang.tmpl|
 |source.objc|C.tmpl|
 |source.objcpp|C.tmpl|
 |source.perl|ShellScript.tmpl|
@@ -79,10 +80,10 @@ Here are a list of language-to-template mappings I came up with. Feel free to ma
 |text.xml.plist|HTML.tmpl|
 |text.xml.xsl|HTML.tmpl|
 
-You can find out the scope of current editing file using `alt-cmd-p`. For all supported language scopes, you can use following code in `Developer Tools`:
+You can find out the scope of current editing file using <kbd>alt-cmd-p</kbd>. For all supported language scopes, you can use following code in `Developer Tools`:
 
 ```js
 Object.keys(atom.grammars.grammarsByScopeName).join('\n')
 ```
 
-`Developer Tools` can be opened using `alt-cmd-i`. You can use  [file-types](https://atom.io/packages/file-types) package by [execjosh](https://github.com/execjosh) to map more file types to language scopes.
+`Developer Tools` can be opened using <kbd>alt-cmd-i</kbd>. You can use  [file-types](https://atom.io/packages/file-types) package by [execjosh](https://github.com/execjosh) to map more file types to language scopes.

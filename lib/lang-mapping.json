@@ -20,6 +20,7 @@
   "source.js.rails source.js.jquery": "C.tmpl",
   "source.litcoffee": "HTML.tmpl",
   "source.makefile": "ShellScript.tmpl",
+  "source.matlab": "Erlang.tmpl",
   "source.objc": "C.tmpl",
   "source.objcpp": "C.tmpl",
   "source.perl": "ShellScript.tmpl",
