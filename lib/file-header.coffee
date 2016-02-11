@@ -2,7 +2,7 @@
 # @Date:   2016-01-21T02:00:17+11:00
 # @Email:  root@guiguan.net
 # @Last modified by:   guiguan
-# @Last modified time: 2016-01-21T22:01:06+11:00
+# @Last modified time: 2016-02-12T00:11:01+08:00
 
 
 {CompositeDisposable} = require 'atom'
@@ -42,6 +42,12 @@ module.exports = FileHeader =
       description: 'Auto update file header on saving. Otherwise, you can bind your own key to <code>file-header:update</code> for manually triggering update.'
       type: 'boolean'
       default: true
+    autoAddingHeaderEnabled:
+      title: 'Enable Auto Adding Header'
+      order: 7
+      description: 'Auto adding header for new files on saving. Files are considered new if they do not contain any field (e.g. <code>@Author:</code>) defined in corresponding template file.'
+      type: 'boolean'
+      default: false
 
   subscriptions: null
   LAST_MODIFIED_BY: '{{last_modified_by}}'
@@ -179,21 +185,27 @@ module.exports = FileHeader =
     buffer = editor.getBuffer()
     return unless headerTemplate = @getHeaderTemplate editor
 
-    # update {{last_modified_by}}
-    realname = atom.config.get 'file-header.realname'
-    username = atom.config.get 'file-header.username'
-    byName = if username then username else realname
-    @updateField @LAST_MODIFIED_BY, headerTemplate, buffer, byName
+    if @hasHeader(buffer, headerTemplate)
+      # update {{last_modified_by}}
+      realname = atom.config.get 'file-header.realname'
+      username = atom.config.get 'file-header.username'
+      byName = if username then username else realname
+      @updateField @LAST_MODIFIED_BY, headerTemplate, buffer, byName
 
-    # update {{last_modified_time}}
-    @updateField @LAST_MODIFIED_TIME, headerTemplate, buffer, moment().format()
+      # update {{last_modified_time}}
+      @updateField @LAST_MODIFIED_TIME, headerTemplate, buffer, moment().format()
+    else if atom.config.get 'file-header.autoAddingHeaderEnabled'
+      @addHeader(buffer, headerTemplate)
+
+  addHeader: (buffer, headerTemplate) ->
+    return unless newHeader = @getNewHeader headerTemplate
+    buffer.insert([0, 0], newHeader, normalizeLineEndings: true)
 
   add: ->
     return unless editor = atom.workspace.getActiveTextEditor()
     buffer = editor.getBuffer()
     return unless headerTemplate = @getHeaderTemplate editor
-    return unless newHeader = @getNewHeader headerTemplate
-    buffer.insert([0, 0], newHeader, normalizeLineEndings: true) unless @hasHeader(buffer, headerTemplate)
+    @addHeader(buffer, headerTemplate) unless @hasHeader(buffer, headerTemplate)
 
   updateToggleAutoUpdateEnabledStatusMenuItem: ->
     packages = null
