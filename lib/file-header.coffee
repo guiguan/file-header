@@ -1,8 +1,8 @@
 # @Author: Guan Gui <guiguan>
 # @Date:   2016-01-21T02:00:17+11:00
 # @Email:  root@guiguan.net
-# @Last modified by:   guiguan
-# @Last modified time: 2016-02-12T00:11:01+08:00
+# @Last modified by:   paulloz
+# @Last modified time: 2016-02-12T23:23:30+01:00
 
 
 {CompositeDisposable} = require 'atom'
@@ -85,7 +85,7 @@ module.exports = FileHeader =
 
     atom.workspace.observeTextEditors (editor) =>
       editor.getBuffer().onWillSave =>
-        return unless atom.config.get 'file-header.autoUpdateEnabled'
+        return unless atom.config.get 'file-header.autoUpdateEnabled', scope : (do editor.getRootScopeDescriptor)
         @update()
 
     @subscriptions.add atom.commands.add 'atom-workspace',
@@ -100,7 +100,7 @@ module.exports = FileHeader =
     @subscriptions.dispose()
 
   getHeaderTemplate: (editor) ->
-    configDirPath = atom.config.get('file-header.configDirPath')
+    configDirPath = atom.config.get 'file-header.configDirPath', scope : (do editor.getRootScopeDescriptor)
     currScope = editor.getRootScopeDescriptor().getScopesArray()[0]
     templateFileName = null
     try
@@ -123,9 +123,10 @@ module.exports = FileHeader =
 
   getNewHeader: (headerTemplate) ->
     return null unless headerTemplate
-    realname = atom.config.get 'file-header.realname'
-    username = atom.config.get 'file-header.username'
-    email = atom.config.get 'file-header.email'
+    return unless editor = atom.workspace.getActiveTextEditor()
+    realname = atom.config.get 'file-header.realname', scope : (do editor.getRootScopeDescriptor)
+    username = atom.config.get 'file-header.username', scope : (do editor.getRootScopeDescriptor)
+    email = atom.config.get 'file-header.email', scope : (do editor.getRootScopeDescriptor)
     if realname
       author = realname
       if username
@@ -187,14 +188,14 @@ module.exports = FileHeader =
 
     if @hasHeader(buffer, headerTemplate)
       # update {{last_modified_by}}
-      realname = atom.config.get 'file-header.realname'
-      username = atom.config.get 'file-header.username'
+      realname = atom.config.get 'file-header.realname', scope : (do editor.getRootScopeDescriptor)
+      username = atom.config.get 'file-header.username', scope : (do editor.getRootScopeDescriptor)
       byName = if username then username else realname
       @updateField @LAST_MODIFIED_BY, headerTemplate, buffer, byName
 
       # update {{last_modified_time}}
       @updateField @LAST_MODIFIED_TIME, headerTemplate, buffer, moment().format()
-    else if atom.config.get 'file-header.autoAddingHeaderEnabled'
+    else if (atom.config.get 'file-header.autoAddingHeaderEnabled', scope : (do editor.getRootScopeDescriptor))
       @addHeader(buffer, headerTemplate)
 
   addHeader: (buffer, headerTemplate) ->
@@ -226,9 +227,9 @@ module.exports = FileHeader =
         toggle = item
         break
     return unless toggle
-    toggle.label = if atom.config.get 'file-header.autoUpdateEnabled' then 'Disable Auto Update' else 'Enable Auto Update'
+    toggle.label = if (atom.config.get 'file-header.autoUpdateEnabled', scope : do editor.getRootScopeDescriptor) then 'Disable Auto Update' else 'Enable Auto Update'
     atom.menu.update()
 
   toggleAutoUpdateEnabledStatus: ->
-    atom.config.set('file-header.autoUpdateEnabled', !atom.config.get('file-header.autoUpdateEnabled'))
+    atom.config.set('file-header.autoUpdateEnabled', !atom.config.get('file-header.autoUpdateEnabled', scope : do editor.getRootScopeDescriptor))
     @updateToggleAutoUpdateEnabledStatusMenuItem()
