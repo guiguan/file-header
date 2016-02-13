@@ -2,7 +2,8 @@
 # @Date:   2016-01-21T02:00:17+11:00
 # @Email:  root@guiguan.net
 # @Last modified by:   guiguan
-# @Last modified time: 2016-02-13T14:03:06+08:00
+# @Last modified time: 2016-02-13T19:14:29+08:00
+
 
 
 {CompositeDisposable} = require 'atom'
@@ -47,7 +48,7 @@ module.exports = FileHeader =
       order: 7
       description: 'Auto adding header for new files on saving. Files are considered new if they do not contain any field (e.g. <code>@Author:</code>) defined in corresponding template file.'
       type: 'boolean'
-      default: false
+      default: true
     ignoreListForAutoUpdateAndAddingHeader:
       title: 'Ignore List for Auto Update and Adding Header'
       order: 8
@@ -59,10 +60,16 @@ module.exports = FileHeader =
     ignoreCaseInTemplateField:
       title: 'Ignore Case in Template Field'
       order: 9
-      description: 'When ignored, the template field <code>@(Test) Last modified by:</code> is considered equivalent to <code>@(Test) Last Modified by:</code>.'
+      description: 'When ignored, the template field <code>@(Demo) Last modified by:</code> is considered equivalent to <code>@(Demo) Last Modified by:</code>.'
       type: 'boolean'
       default: true
-
+    numOfEmptyLinesAfterNewHeader:
+      title: 'Number of Empty Lines after New Header'
+      order: 10
+      description: 'Number of empty lines should be kept after a new header.'
+      type: 'integer'
+      default: 3
+      minimum: 0
 
   subscriptions: null
   LAST_MODIFIED_BY: '{{last_modified_by}}'
@@ -100,7 +107,7 @@ module.exports = FileHeader =
 
     atom.workspace.observeTextEditors (editor) =>
       editor.getBuffer().onWillSave =>
-        return unless atom.config.get 'file-header.autoUpdateEnabled'
+        return unless atom.config.get 'file-header.autoUpdateEnabled', scope: (do editor.getRootScopeDescriptor)
         @update()
 
     @subscriptions.add atom.commands.add 'atom-workspace',
@@ -115,7 +122,7 @@ module.exports = FileHeader =
     @subscriptions.dispose()
 
   getHeaderTemplate: (editor) ->
-    configDirPath = atom.config.get('file-header.configDirPath')
+    configDirPath = atom.config.get('file-header.configDirPath', scope: (do editor.getRootScopeDescriptor))
     currScope = editor.getRootScopeDescriptor().getScopesArray()[0]
     templateFileName = null
     try
@@ -136,11 +143,11 @@ module.exports = FileHeader =
       template = fs.readFileSync(path.join(__dirname, @TEMPLATES, templateFileName), encoding: "utf8")
     template
 
-  getNewHeader: (headerTemplate) ->
+  getNewHeader: (editor, headerTemplate) ->
     return null unless headerTemplate
-    realname = atom.config.get 'file-header.realname'
-    username = atom.config.get 'file-header.username'
-    email = atom.config.get 'file-header.email'
+    realname = atom.config.get 'file-header.realname', scope: (do editor.getRootScopeDescriptor)
+    username = atom.config.get 'file-header.username', scope: (do editor.getRootScopeDescriptor)
+    email = atom.config.get 'file-header.email', scope: (do editor.getRootScopeDescriptor)
     if realname
       author = realname
       if username
@@ -168,12 +175,12 @@ module.exports = FileHeader =
 
   # We consider a source file to have a file header if any placeholder line in
   # the corresponding header template is presented
-  hasHeader: (buffer, headerTemplate) ->
+  hasHeader: (editor, buffer, headerTemplate) ->
     # these placeholder preambles are used as anchor points in source code scanning
     if !(preambles = headerTemplate.match(/@[^:]+:/g))
       return false
     preambles = preambles.map(@escapeRegExp)
-    re = new RegExp(preambles.join('|'), if atom.config.get('file-header.ignoreCaseInTemplateField') then 'gi' else 'g')
+    re = new RegExp(preambles.join('|'), if atom.config.get('file-header.ignoreCaseInTemplateField', scope: (do editor.getRootScopeDescriptor)) then 'gi' else 'g')
     hasMatch = false
     buffer.scan(re, (result) =>
       hasMatch = true
@@ -181,7 +188,7 @@ module.exports = FileHeader =
     )
     hasMatch
 
-  updateField: (placeholder, headerTemplate, buffer, newValue) ->
+  updateField: (editor, placeholder, headerTemplate, buffer, newValue) ->
     escaptedPlaceholder = @escapeRegExp(placeholder)
     re = new RegExp(".*(@[^:]+:).*#{ escaptedPlaceholder }.*(?:\r\n|\r|\n)", 'g')
     # find anchor point and line in current template
@@ -191,7 +198,7 @@ module.exports = FileHeader =
       # inject new value
       newLine = newLine.replace(new RegExp(escaptedPlaceholder, 'g'), newValue)
       # find and replace line in current buffer
-      reB = new RegExp(".*#{ @escapeRegExp(anchor) }.*(?:\r\n|\r|\n)", if atom.config.get('file-header.ignoreCaseInTemplateField') then 'gi' else 'g')
+      reB = new RegExp(".*#{ @escapeRegExp(anchor) }.*(?:\r\n|\r|\n)", if atom.config.get('file-header.ignoreCaseInTemplateField', scope: (do editor.getRootScopeDescriptor)) then 'gi' else 'g')
       buffer.scan(reB, (result) =>
         result.replace(newLine)
       )
@@ -202,20 +209,27 @@ module.exports = FileHeader =
     buffer = editor.getBuffer()
     return unless headerTemplate = @getHeaderTemplate editor
 
-    if @hasHeader(buffer, headerTemplate)
+    if @hasHeader(editor, buffer, headerTemplate)
       # update {{last_modified_by}}
-      realname = atom.config.get 'file-header.realname'
-      username = atom.config.get 'file-header.username'
+      realname = atom.config.get 'file-header.realname', scope: (do editor.getRootScopeDescriptor)
+      username = atom.config.get 'file-header.username', scope: (do editor.getRootScopeDescriptor)
       byName = if username then username else realname
-      @updateField @LAST_MODIFIED_BY, headerTemplate, buffer, byName
+      @updateField editor, @LAST_MODIFIED_BY, headerTemplate, buffer, byName
 
       # update {{last_modified_time}}
-      @updateField @LAST_MODIFIED_TIME, headerTemplate, buffer, moment().format()
-    else if atom.config.get 'file-header.autoAddingHeaderEnabled'
-      @addHeader(buffer, headerTemplate)
+      @updateField editor, @LAST_MODIFIED_TIME, headerTemplate, buffer, moment().format()
+    else if atom.config.get('file-header.autoAddingHeaderEnabled', scope: (do editor.getRootScopeDescriptor))
+      @addHeader(editor, buffer, headerTemplate)
 
-  addHeader: (buffer, headerTemplate) ->
-    return unless newHeader = @getNewHeader headerTemplate
+  addHeader: (editor, buffer, headerTemplate) ->
+    return unless newHeader = @getNewHeader editor, headerTemplate
+    newHeader += "\n".repeat(atom.config.get('file-header.numOfEmptyLinesAfterNewHeader', scope: (do editor.getRootScopeDescriptor)))
+    # remove leading empty lines
+    buffer.scan(/\s*(?:\r\n|\r|\n)(?=\S)/, (result) =>
+      if result.range.start.isEqual([0, 0])
+        result.replace('')
+      result.stop()
+    )
     buffer.insert([0, 0], newHeader, normalizeLineEndings: true)
 
   add: (manual = false) ->
@@ -223,11 +237,11 @@ module.exports = FileHeader =
     return unless manual || !@isInIgnoreListForAutoUpdateAndAddingHeader(editor)
     buffer = editor.getBuffer()
     return unless headerTemplate = @getHeaderTemplate editor
-    @addHeader(buffer, headerTemplate) unless @hasHeader(buffer, headerTemplate)
+    @addHeader(editor, buffer, headerTemplate) unless @hasHeader(editor, buffer, headerTemplate)
 
   isInIgnoreListForAutoUpdateAndAddingHeader: (editor) ->
     currScope = editor.getRootScopeDescriptor().getScopesArray()[0]
-    currScope in atom.config.get 'file-header.ignoreListForAutoUpdateAndAddingHeader'
+    currScope in atom.config.get 'file-header.ignoreListForAutoUpdateAndAddingHeader', scope: (do editor.getRootScopeDescriptor)
 
   updateToggleAutoUpdateEnabledStatusMenuItem: ->
     packages = null
@@ -248,7 +262,7 @@ module.exports = FileHeader =
         toggle = item
         break
     return unless toggle
-    toggle.label = if atom.config.get 'file-header.autoUpdateEnabled' then 'Disable Auto Update' else 'Enable Auto Update'
+    toggle.label = if atom.config.get('file-header.autoUpdateEnabled') then 'Disable Auto Update' else 'Enable Auto Update'
     atom.menu.update()
 
   toggleAutoUpdateEnabledStatus: ->

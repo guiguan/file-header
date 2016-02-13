@@ -3,8 +3,12 @@
 @Date:   2016-01-21T00:46:45+11:00
 @Email:  root@guiguan.net
 @Last modified by:   guiguan
-@Last modified time: 2016-02-13T14:04:58+08:00
+@Last modified time: 2016-02-13T19:02:36+08:00
 -->
+## 1.4.0
+* Added support for language scoped config. Thanks to [Paulloz](https://github.com/guiguan/file-header/pull/6).
+* Added option to specify number of empty lines should be kept after new header.
+
 ## 1.3.0
 * Added option to ignore cases in template fields so that templates with uppercases from Sublime are  compatible too
 * Added option to set a list of ignore list for auto update and adding header
