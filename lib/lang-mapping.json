@@ -14,6 +14,7 @@
   "source.git-config": "ShellScript.tmpl",
   "source.go": "C.tmpl",
   "source.gotemplate": "GoTemplate.tmpl",
+  "source.haskell": "Haskell.tmpl",
   "source.java": "C.tmpl",
   "source.java-properties": "ShellScript.tmpl",
   "source.js": "C.tmpl",
