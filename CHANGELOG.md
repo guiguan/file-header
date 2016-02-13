@@ -3,8 +3,13 @@
 @Date:   2016-01-21T00:46:45+11:00
 @Email:  root@guiguan.net
 @Last modified by:   guiguan
-@Last modified time: 2016-02-12T00:19:36+08:00
+@Last modified time: 2016-02-13T14:04:58+08:00
 -->
+## 1.3.0
+* Added option to ignore cases in template fields so that templates with uppercases from Sublime are  compatible too
+* Added option to set a list of ignore list for auto update and adding header
+* Added support for Haskell
+
 ## 1.2.0
 * Added support for Matlab. [language-matlab](https://atom.io/packages/language-matlab) must be installed first.
 * Added option for automatically adding header for new files.
