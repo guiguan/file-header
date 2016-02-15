@@ -3,7 +3,7 @@
 @Date:   2016-01-21T00:47:29+11:00
 @Email:  root@guiguan.net
 @Last modified by:   guiguan
-@Last modified time: 2016-02-13T19:12:34+08:00
+@Last modified time: 2016-02-15T19:36:40+08:00
 -->
 # FileHeader for Atom
 FileHeader allows you to customize, add, update and cooperate your authoring information in header comment like this:
@@ -107,3 +107,7 @@ Object.keys(atom.grammars.grammarsByScopeName).join('\n')
 ```
 
 `Developer Tools` can be opened using <kbd>alt-cmd-i</kbd>. You can use  [file-types](https://atom.io/packages/file-types) package by [execjosh](https://github.com/execjosh) to map more file types to language scopes.
+
+<!-- Piwik Image Tracker-->
+<img src="http://piwik.guiguan.net/piwik.php?idsite=4&rec=1" style="border:0" alt="" />
+<!-- End Piwik -->
