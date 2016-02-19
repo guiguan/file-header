@@ -3,8 +3,11 @@
 @Date:   2016-01-21T00:46:45+11:00
 @Email:  root@guiguan.net
 @Last modified by:   guiguan
-@Last modified time: 2016-02-13T19:02:36+08:00
+@Last modified time: 2016-02-19T13:00:15+08:00
 -->
+## 1.5.0
+* Added support for jsx files (both Coffeescript and Javascript)
+
 ## 1.4.0
 * Added support for language scoped config. Thanks to [Paulloz](https://github.com/guiguan/file-header/pull/6).
 * Added option to specify number of empty lines should be kept after new header.

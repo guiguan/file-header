@@ -3,7 +3,7 @@
 @Date:   2016-01-21T00:47:29+11:00
 @Email:  root@guiguan.net
 @Last modified by:   guiguan
-@Last modified time: 2016-02-15T19:36:40+08:00
+@Last modified time: 2016-02-19T12:58:03+08:00
 -->
 # FileHeader for Atom
 FileHeader allows you to customize, add, update and cooperate your authoring information in header comment like this:
@@ -51,6 +51,7 @@ Here are a list of language-to-template mappings I came up with. Feel free to ma
 |source.cake|C.tmpl|
 |source.clojure|Clojure.tmpl|
 |source.coffee|ShellScript.tmpl|
+|source.coffee.jsx|ShellScript.tmpl|
 |source.cpp|C.tmpl|
 |source.cs|C.tmpl|
 |source.css|C.tmpl|
@@ -67,6 +68,7 @@ Here are a list of language-to-template mappings I came up with. Feel free to ma
 |source.java-properties|ShellScript.tmpl|
 |source.js|C.tmpl|
 |source.js.rails source.js.jquery|C.tmpl|
+|source.js.jsx|C.tmpl|
 |source.litcoffee|HTML.tmpl|
 |source.makefile|ShellScript.tmpl|
 |source.matlab|Erlang.tmpl|
@@ -103,7 +105,7 @@ Here are a list of language-to-template mappings I came up with. Feel free to ma
 You can find out the scope of current editing file using <kbd>alt-cmd-p</kbd>. For all supported language scopes, you can use following code in `Developer Tools`:
 
 ```js
-Object.keys(atom.grammars.grammarsByScopeName).join('\n')
+console.log(Object.keys(atom.grammars.grammarsByScopeName).join('\n'))
 ```
 
 `Developer Tools` can be opened using <kbd>alt-cmd-i</kbd>. You can use  [file-types](https://atom.io/packages/file-types) package by [execjosh](https://github.com/execjosh) to map more file types to language scopes.
