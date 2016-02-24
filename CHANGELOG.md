@@ -3,8 +3,11 @@
 @Date:   2016-01-21T00:46:45+11:00
 @Email:  root@guiguan.net
 @Last modified by:   guiguan
-@Last modified time: 2016-02-19T13:00:15+08:00
+@Last modified time: 2016-02-24T11:10:49+08:00
 -->
+## 1.6.0
+* Added project name and license fields
+
 ## 1.5.0
 * Added support for jsx files (both Coffeescript and Javascript)
 

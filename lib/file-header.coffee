@@ -1,8 +1,8 @@
 # @Author: Guan Gui <guiguan>
-# @Date:   2016-01-21T02:00:17+11:00
+# @Date:   2016-02-24T11:06:24+08:00
 # @Email:  root@guiguan.net
 # @Last modified by:   guiguan
-# @Last modified time: 2016-02-13T19:14:29+08:00
+# @Last modified time: 2016-02-24T11:06:24+08:00
 
 
 
@@ -27,31 +27,43 @@ module.exports = FileHeader =
       default: ''
     email:
       title: 'Email Address'
-      order: 4
+      order: 3
       description: 'Your email address. Leave empty to disable.'
+      type: 'string'
+      default: ''
+    projectName:
+      title: 'Project Name'
+      order: 4
+      description: 'Current project name. Leave empty to disable.'
+      type: 'string'
+      default: ''
+    license:
+      title: 'License'
+      order: 5
+      description: 'Your custom license text. Leave empty to disable.'
       type: 'string'
       default: ''
     configDirPath:
       title: 'Config Directory Path'
-      order: 5
+      order: 6
       description: 'Path to the directory that contains your customized File Header <code>lang-mapping.json</code> and <code>templates</code> directory. They will override default ones came with this package.'
       type: 'string'
       default: path.join(atom.config.configDirPath, 'file-header')
     autoUpdateEnabled:
       title: 'Enable Auto Update'
-      order: 6
+      order: 7
       description: 'Auto update file header on saving. Otherwise, you can bind your own key to <code>file-header:update</code> for manually triggering update.'
       type: 'boolean'
       default: true
     autoAddingHeaderEnabled:
       title: 'Enable Auto Adding Header'
-      order: 7
-      description: 'Auto adding header for new files on saving. Files are considered new if they do not contain any field (e.g. <code>@Author:</code>) defined in corresponding template file.'
+      order: 8
+      description: 'Auto adding header for new files on saving. Files are considered new if they do not contain any field (e.g. <code>@(Demo) Author:</code>) defined in corresponding template file.'
       type: 'boolean'
       default: true
     ignoreListForAutoUpdateAndAddingHeader:
       title: 'Ignore List for Auto Update and Adding Header'
-      order: 8
+      order: 9
       description: 'List of language scopes to be ignored during auto update and auto adding header. For example, <code>source.gfm, source.css</code> will ignore GitHub Markdown and CSS files.'
       type: 'array'
       default: []
@@ -59,13 +71,13 @@ module.exports = FileHeader =
         type: 'string'
     ignoreCaseInTemplateField:
       title: 'Ignore Case in Template Field'
-      order: 9
+      order: 10
       description: 'When ignored, the template field <code>@(Demo) Last modified by:</code> is considered equivalent to <code>@(Demo) Last Modified by:</code>.'
       type: 'boolean'
       default: true
     numOfEmptyLinesAfterNewHeader:
       title: 'Number of Empty Lines after New Header'
-      order: 10
+      order: 11
       description: 'Number of empty lines should be kept after a new header.'
       type: 'integer'
       default: 3
@@ -167,6 +179,16 @@ module.exports = FileHeader =
     if byName
       # fill placeholder {{last_modified_by}}
       headerTemplate = headerTemplate.replace(new RegExp(@escapeRegExp(@LAST_MODIFIED_BY), 'g'), byName)
+
+    projectName = atom.config.get 'file-header.projectName', scope: (do editor.getRootScopeDescriptor)
+    if projectName
+      # fill placeholder {{project_name}}
+      headerTemplate = headerTemplate.replace(/\{\{project_name\}\}/g, projectName)
+    license = atom.config.get 'file-header.license', scope: (do editor.getRootScopeDescriptor)
+    if license
+      # fill placeholder {{license}}
+      headerTemplate = headerTemplate.replace(/\{\{license\}\}/g, license)
+
     # remove header lines with empty placeholders
     return headerTemplate = headerTemplate.replace(/^.*\{\{\w+\}\}(?:\r\n|\r|\n)/gm, '')
 
