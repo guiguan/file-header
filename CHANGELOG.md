@@ -1,10 +1,14 @@
 <!--
 @Author: Guan Gui <guiguan>
-@Date:   2016-01-21T00:46:45+11:00
+@Date:   2016-01-20T08:29:50+08:00
 @Email:  root@guiguan.net
 @Last modified by:   guiguan
-@Last modified time: 2016-02-24T11:10:49+08:00
+@Last modified time: 2016-03-10T18:14:07+08:00
 -->
+
+## 1.7.0
+* Added option that defaults to use file creation time instead of file header creation time for `{{create_time}}`
+
 ## 1.6.0
 * Added project name and license fields
 
