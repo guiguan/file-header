@@ -3,8 +3,11 @@
 @Date:   2016-01-20T08:29:50+08:00
 @Email:  root@guiguan.net
 @Last modified by:   guiguan
-@Last modified time: 2016-03-10T18:14:07+08:00
+@Last modified time: 9:50:24 pm
 -->
+
+## 1.8.0
+* Added option to specify custom Moment.js date time format string for date times in file header
 
 ## 1.7.0
 * Added option that defaults to use file creation time instead of file header creation time for `{{create_time}}`

@@ -2,7 +2,7 @@
 # @Date:   2016-02-13T11:15:43+08:00
 # @Email:  root@guiguan.net
 # @Last modified by:   guiguan
-# @Last modified time: 2016-03-10T18:09:28+08:00
+# @Last modified time: Saturday, March 12th 2016, 9:48:11 pm
 
 
 
@@ -49,27 +49,33 @@ module.exports = FileHeader =
       description: 'Path to the directory that contains your customized File Header <code>lang-mapping.json</code> and <code>templates</code> directory. They will override default ones came with this package.'
       type: 'string'
       default: path.join(atom.config.configDirPath, 'file-header')
+    dateTimeFormat:
+      title: 'Date Time Format'
+      order: 7
+      description: 'Custom Moment.js format string to be used for date times in file header. For example, <code>DD-MMM-YYYY</code>. Please refer to <a href="http://momentjs.com/docs/#/displaying/format/" target="_blank">Moment.js doc</a> for details.'
+      type: 'string'
+      default: ''
     useFileCreationTime:
       title: 'Use File Creation Time'
-      order: 7
+      order: 8
       description: 'Use file creation time instead of file header creation time for <code>{{create_time}}</code>.'
       type: 'boolean'
       default: true
     autoUpdateEnabled:
       title: 'Enable Auto Update'
-      order: 8
+      order: 9
       description: 'Auto update file header on saving. Otherwise, you can bind your own key to <code>file-header:update</code> for manually triggering update.'
       type: 'boolean'
       default: true
     autoAddingHeaderEnabled:
       title: 'Enable Auto Adding Header'
-      order: 9
+      order: 10
       description: 'Auto adding header for new files on saving. Files are considered new if they do not contain any field (e.g. <code>@(Demo) Author:</code>) defined in corresponding template file.'
       type: 'boolean'
       default: true
     ignoreListForAutoUpdateAndAddingHeader:
       title: 'Ignore List for Auto Update and Adding Header'
-      order: 10
+      order: 11
       description: 'List of language scopes to be ignored during auto update and auto adding header. For example, <code>source.gfm, source.css</code> will ignore GitHub Markdown and CSS files.'
       type: 'array'
       default: []
@@ -77,13 +83,13 @@ module.exports = FileHeader =
         type: 'string'
     ignoreCaseInTemplateField:
       title: 'Ignore Case in Template Field'
-      order: 11
+      order: 12
       description: 'When ignored, the template field <code>@(Demo) Last modified by:</code> is considered equivalent to <code>@(Demo) Last Modified by:</code>.'
       type: 'boolean'
       default: true
     numOfEmptyLinesAfterNewHeader:
       title: 'Number of Empty Lines after New Header'
-      order: 12
+      order: 13
       description: 'Number of empty lines should be kept after a new header.'
       type: 'integer'
       default: 3
@@ -177,12 +183,13 @@ module.exports = FileHeader =
     if author
       # fill placeholder {{author}}
       headerTemplate = headerTemplate.replace(/\{\{author\}\}/g, author)
-    currTimeStr = moment().format()
+    dateTimeFormat = atom.config.get('file-header.dateTimeFormat', scope: (do editor.getRootScopeDescriptor))
+    currTimeStr = moment().format(dateTimeFormat)
     creationTime = currTimeStr
     # fill placeholder {{create_time}}
     if atom.config.get('file-header.useFileCreationTime', scope: (do editor.getRootScopeDescriptor)) and currFilePath = editor.getPath()
       # try to retrieve creation time from current file meta data, otherwise use current time
-      creationTime = moment(fs.statSync(currFilePath).birthtime.getTime()).format()
+      creationTime = moment(fs.statSync(currFilePath).birthtime.getTime()).format(dateTimeFormat)
     headerTemplate = headerTemplate.replace(new RegExp("#{ @escapeRegExp('{{create_time}}') }", 'g'), creationTime)
     # fill placeholder {{last_modified_time}}
     headerTemplate = headerTemplate.replace(new RegExp("#{ @escapeRegExp(@LAST_MODIFIED_TIME) }", 'g'), currTimeStr)
@@ -252,7 +259,7 @@ module.exports = FileHeader =
       @updateField editor, @LAST_MODIFIED_BY, headerTemplate, buffer, byName
 
       # update {{last_modified_time}}
-      @updateField editor, @LAST_MODIFIED_TIME, headerTemplate, buffer, moment().format()
+      @updateField editor, @LAST_MODIFIED_TIME, headerTemplate, buffer, moment().format(atom.config.get('file-header.dateTimeFormat', scope: (do editor.getRootScopeDescriptor)))
     else if atom.config.get('file-header.autoAddingHeaderEnabled', scope: (do editor.getRootScopeDescriptor))
       @addHeader(editor, buffer, headerTemplate)
 
