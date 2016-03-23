@@ -1,4 +1,5 @@
 {
+  "source.arm": "ARM.tmpl",
   "source.c": "C.tmpl",
   "source.cake": "C.tmpl",
   "source.clojure": "Clojure.tmpl",
