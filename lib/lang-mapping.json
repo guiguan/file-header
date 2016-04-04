@@ -34,6 +34,7 @@
   "source.ruby": "ShellScript.tmpl",
   "source.ruby.rails": "ShellScript.tmpl",
   "source.ruby.rails.rjs": "ShellScript.tmpl",
+  "source.rust": "SASS.tmpl",
   "source.sass": "SASS.tmpl",
   "source.shell": "ShellScript.tmpl",
   "source.sql": "C.tmpl",
