@@ -3,7 +3,7 @@
 @Date:   2016-01-21T00:47:29+11:00
 @Email:  root@guiguan.net
 @Last modified by:   guiguan
-@Last modified time: 2016-03-24T23:02:23+08:00
+@Last modified time: 2016-04-04T19:10:55+10:00
 -->
 # FileHeader for Atom
 FileHeader allows you to customize, add, update and cooperate your authoring information in header comment like this:
@@ -82,6 +82,7 @@ Here are a list of language-to-template mappings I came up with. Feel free to ma
 |source.ruby|ShellScript.tmpl|
 |source.ruby.rails|ShellScript.tmpl|
 |source.ruby.rails.rjs|ShellScript.tmpl|
+|source.rust|SASS.tmpl|
 |source.sass|SASS.tmpl|
 |source.shell|ShellScript.tmpl|
 |source.sql|C.tmpl|

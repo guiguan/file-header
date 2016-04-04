@@ -3,8 +3,12 @@
 @Date:   2016-01-20T08:29:50+08:00
 @Email:  root@guiguan.net
 @Last modified by:   guiguan
-@Last modified time: 2016-03-24T23:01:09+08:00
+@Last modified time: 2016-04-04T19:09:57+10:00
 -->
+
+## 1.8.2
+* Added support for Rust sources
+* Updated introduction animated-gif
 
 ## 1.8.1
 * Added support for ARM sources. Refer to `language-arm` by dan-c-underwood for details.
