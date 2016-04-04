@@ -2,7 +2,7 @@
 # @Date:   2016-02-13T14:15:43+11:00
 # @Email:  root@guiguan.net
 # @Last modified by:   guiguan
-# @Last modified time: 2016-04-04T19:49:31+10:00
+# @Last modified time: 2016-04-05T01:09:51+10:00
 
 
 
@@ -187,9 +187,11 @@ module.exports = FileHeader =
     currTimeStr = moment().format(dateTimeFormat)
     creationTime = currTimeStr
     # fill placeholder {{create_time}}
-    if atom.config.get('file-header.useFileCreationTime', scope: (do editor.getRootScopeDescriptor)) and currFilePath = editor.getPath()
+    if atom.config.get('file-header.useFileCreationTime', scope: (do editor.getRootScopeDescriptor))
       # try to retrieve creation time from current file meta data, otherwise use current time
-      creationTime = moment(fs.statSync(currFilePath).birthtime.getTime()).format(dateTimeFormat)
+      try
+        currFilePath = editor.getPath()
+        creationTime = moment(fs.statSync(currFilePath).birthtime.getTime()).format(dateTimeFormat)
     headerTemplate = headerTemplate.replace(new RegExp("#{ @escapeRegExp('{{create_time}}') }", 'g'), creationTime)
     # fill placeholder {{last_modified_time}}
     headerTemplate = headerTemplate.replace(new RegExp("#{ @escapeRegExp(@LAST_MODIFIED_TIME) }", 'g'), currTimeStr)
