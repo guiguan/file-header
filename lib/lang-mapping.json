@@ -44,6 +44,7 @@
   "source.swift": "C.tmpl",
   "source.toml": "ShellScript.tmpl",
   "source.yaml": "ShellScript.tmpl",
+  "source.v": "verilog.tmpl",
   "text.html.basic": "HTML.tmpl",
   "text.html.erb": "HTML.tmpl",
   "text.html.gohtml": "HTML.tmpl",
