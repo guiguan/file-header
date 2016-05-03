@@ -31,6 +31,7 @@
   "source.perl6": "ShellScript.tmpl",
   "source.plist": "HTML.tmpl",
   "source.python": "ShellScript.tmpl",
+  "source.python.django":"ShellScript.tmpl",
   "source.ruby": "ShellScript.tmpl",
   "source.ruby.rails": "ShellScript.tmpl",
   "source.ruby.rails.rjs": "ShellScript.tmpl",

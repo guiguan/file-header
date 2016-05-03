@@ -2,9 +2,11 @@
 @Author: Guan Gui <guiguan>
 @Date:   2016-01-20T08:29:50+08:00
 @Email:  root@guiguan.net
-@Last modified by:   guiguan
-@Last modified time: 2016-04-05T01:14:22+10:00
+@Last modified by:   drxos
+@Last modified time: 2016-05-03T20:32:12+01:00
 -->
+## 1.8.4
+* Added support for Django Python language
 
 ## 1.8.3
 * Fixed an issue that caused crash when saving a new file while trying to add file header
