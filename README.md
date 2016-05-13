@@ -3,7 +3,7 @@
 @Date:   2016-01-21T00:47:29+11:00
 @Email:  root@guiguan.net
 @Last modified by:   guiguan
-@Last modified time: 2016-04-04T19:10:55+10:00
+@Last modified time: 2016-05-13T14:19:48+10:00
 -->
 # FileHeader for Atom
 FileHeader allows you to customize, add, update and cooperate your authoring information in header comment like this:
@@ -16,15 +16,15 @@ This package is inspired by and could be considered equivalent to [FileHeader fo
 Just search for `file-header` in Atom `Settings > Install`, and press `Install`.
 
 # Usage
-1. Configure your real name, username and email in FileHeader's settings.
-2. Use <kbd>shift-cmd-H</kbd> to add new header for current editing file. You can also use menu item from menu bar `Packages > File Header` or context menu `Add File Header` to do so. Or, you can turn on `Enable Auto Adding Header` in the settings to add a header for a new file when you save your the file.
+1. Configure your real name, username and email in FileHeader's settings (<kbd>cmd+,</kbd> > Packages > file-header).
+2. Use <kbd>shift-cmd-H</kbd> to add new header for current editing file. You can also use menu item from menu bar `Packages > File Header` or context menu `Add File Header` to do so. Or, you can turn on `Enable Auto Adding Header` in the settings to add a header for a new file when you save your the file. When you want to temporarily disable auto update, you can use either menu item or context menu `Disable Auto Update`, and later, you can use `Enable Auto Update` to turn the function back on.
 3. Just hit <kbd>cmd-s</kbd> to save and your header's last modified info will be automatically updated.
 
 # Customise Template
 FileHeader came with a pre-defiend language-to-template mappings (`lang-mapping.json`) and bunch of template files (`templates/*`). Check them out in the `lib` directory of FileHeader package. You are free to override or partially override them in your own config directory. Check out the option `Config Directory Path` from FileHeader settings for details.
 
 # Language Specific Setting
-You can also configure everything language specific directly in your `config.cson` file (`Atom > Open Your Config`):
+Apart from general configurations in FileHeader's settings, you can also configure everything language specific directly in your `config.cson` file (`Atom > Open Your Config`):
 
 ```CoffeeScript
 "*":
@@ -41,6 +41,8 @@ You can also configure everything language specific directly in your `config.cso
     "file-header":
         autoAddingHeaderEnabled: true
 ```
+
+For all configurable options, please have a look of `config` object in source code `file-header.coffee`.
 
 ## Supported Language
 Here are a list of language-to-template mappings I came up with. Feel free to make a pull request to me if you want to contribute :).
@@ -71,14 +73,17 @@ Here are a list of language-to-template mappings I came up with. Feel free to ma
 |source.js.rails source.js.jquery|C.tmpl|
 |source.js.jsx|C.tmpl|
 |source.litcoffee|HTML.tmpl|
+|source.lua|Haskell.tmpl|
 |source.makefile|ShellScript.tmpl|
 |source.matlab|Erlang.tmpl|
+|source.nginx|ShellScript.tmpl|
 |source.objc|C.tmpl|
 |source.objcpp|C.tmpl|
 |source.perl|ShellScript.tmpl|
 |source.perl6|ShellScript.tmpl|
 |source.plist|HTML.tmpl|
 |source.python|ShellScript.tmpl|
+|source.python.django|ShellScript.tmpl|
 |source.ruby|ShellScript.tmpl|
 |source.ruby.rails|ShellScript.tmpl|
 |source.ruby.rails.rjs|ShellScript.tmpl|
@@ -92,6 +97,7 @@ Here are a list of language-to-template mappings I came up with. Feel free to ma
 |source.swift|C.tmpl|
 |source.toml|ShellScript.tmpl|
 |source.yaml|ShellScript.tmpl|
+|source.verilog|C.tmpl|
 |text.html.basic|HTML.tmpl|
 |text.html.erb|HTML.tmpl|
 |text.html.gohtml|HTML.tmpl|

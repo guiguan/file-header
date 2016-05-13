@@ -2,7 +2,7 @@
 # @Date:   2016-02-13T14:15:43+11:00
 # @Email:  root@guiguan.net
 # @Last modified by:   guiguan
-# @Last modified time: 2016-04-05T01:09:51+10:00
+# @Last modified time: 2016-05-09T13:32:49+08:00
 
 
 
@@ -128,6 +128,7 @@ module.exports = FileHeader =
 
     @subscriptions.add atom.config.observe 'file-header.autoUpdateEnabled', =>
       @updateToggleAutoUpdateEnabledStatusMenuItem()
+      @updateToggleAutoUpdateEnabledStatusContextMenuItem()
 
     atom.workspace.observeTextEditors (editor) =>
       editor.getBuffer().onWillSave =>
@@ -136,8 +137,8 @@ module.exports = FileHeader =
 
     @subscriptions.add atom.commands.add 'atom-workspace',
       'file-header:add': => @add(true)
-      'file-header:toggleAutoUpdateEnabledStatus': => @toggleAutoUpdateEnabledStatus()
       'file-header:update': => @update(true)
+      'file-header:toggleAutoUpdateEnabledStatus': => @toggleAutoUpdateEnabledStatus()
 
   serialize: ->
     @state
@@ -309,6 +310,22 @@ module.exports = FileHeader =
     toggle.label = if atom.config.get('file-header.autoUpdateEnabled') then 'Disable Auto Update' else 'Enable Auto Update'
     atom.menu.update()
 
+  updateToggleAutoUpdateEnabledStatusContextMenuItem: ->
+    itemSet = null
+    for item in atom.contextMenu.itemSets
+      if item.selector is 'atom-text-editor'
+        itemSet = item
+        break
+    return unless itemSet
+    toggle = null
+    for item in itemSet.items
+      if item.command is 'file-header:toggleAutoUpdateEnabledStatus'
+        toggle = item
+        break
+    return unless toggle
+    toggle.label = if atom.config.get('file-header.autoUpdateEnabled') then 'Disable Auto Update' else 'Enable Auto Update'
+
   toggleAutoUpdateEnabledStatus: ->
     atom.config.set('file-header.autoUpdateEnabled', !atom.config.get('file-header.autoUpdateEnabled'))
     @updateToggleAutoUpdateEnabledStatusMenuItem()
+    @updateToggleAutoUpdateEnabledStatusContextMenuItem()
