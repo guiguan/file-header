@@ -2,7 +2,7 @@
 # @Date:   2016-02-13T14:15:43+11:00
 # @Email:  root@guiguan.net
 # @Last modified by:   aming
-# @Last modified time: 2016-05-26T15:32:01+08:00
+# @Last modified time: 2016-05-26T15:38:16+08:00
 
 
 
@@ -277,21 +277,15 @@ module.exports = FileHeader =
     )
 
     point = @getBeginningHeaderPoint editor, buffer
-
-    console.log point
-
     buffer.insert(point, newHeader, normalizeLineEndings: true)
 
   getBeginningHeaderPoint: (editor, buffer) ->
     if editor.getRootScopeDescriptor().getScopesArray()[0] ==  "text.html.php"
-
       point = [0, 0]
-
       buffer.scan(/^(<\u003Fphp)|^(<\u003f)/, (result) =>
         point = result.range.start
         point.row += 1
       )
-
       return point
 
   add: (manual = false) ->
