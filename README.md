@@ -72,6 +72,7 @@ Here are a list of language-to-template mappings I came up with. Feel free to ma
 |source.js|C.tmpl|
 |source.js.rails source.js.jquery|C.tmpl|
 |source.js.jsx|C.tmpl|
+|source.kt|C.tmpl|
 |source.litcoffee|HTML.tmpl|
 |source.lua|Haskell.tmpl|
 |source.makefile|ShellScript.tmpl|
