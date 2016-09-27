@@ -2,8 +2,8 @@
 @Author: Guan Gui <guiguan>
 @Date:   2016-01-21T00:47:29+11:00
 @Email:  root@guiguan.net
-@Last modified by:   guiguan
-@Last modified time: 2016-05-13T14:19:48+10:00
+@Last modified by:   Artur Kryczka
+@Last modified time: 2016-09-27
 -->
 # FileHeader for Atom
 FileHeader allows you to customize, add, update and cooperate your authoring information in header comment like this:
@@ -50,6 +50,7 @@ Here are a list of language-to-template mappings I came up with. Feel free to ma
 | Language Scope | Template File |
 | :------------- | :------------ |
 |source.arm|Clojure.tmpl|
+|source.apex|C.tmpl|
 |source.c|C.tmpl|
 |source.cake|C.tmpl|
 |source.clojure|Clojure.tmpl|
@@ -98,6 +99,7 @@ Here are a list of language-to-template mappings I came up with. Feel free to ma
 |source.toml|ShellScript.tmpl|
 |source.yaml|ShellScript.tmpl|
 |source.verilog|C.tmpl|
+|source.visualforce|HTML.tmpl|
 |text.html.basic|HTML.tmpl|
 |text.html.erb|HTML.tmpl|
 |text.html.gohtml|HTML.tmpl|
