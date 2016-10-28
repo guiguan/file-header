@@ -2,7 +2,7 @@
 # @Date:   2016-02-13T14:15:43+11:00
 # @Email:  root@guiguan.net
 # @Last modified by:   eric
-# @Last modified time: 2016-10-28
+# @Last modified time: 2016-10-29
 
 
 
@@ -141,7 +141,7 @@ module.exports = FileHeader =
       # now use `isEmpty` to determine if the file is just __created__
       # however, if an empty file is __open__, we will still try to
       # add the file header automatically
-      if autoAddHeaderOnNewFile && editor.isEmpty()
+      if autoAddHeaderOnNewFile && editor.isEmpty() && !@isInIgnoreListForAutoUpdateAndAddingHeader(editor)
         headerTemplate = @getHeaderTemplate editor
         if headerTemplate
           buffer = editor.getBuffer()
@@ -191,11 +191,10 @@ module.exports = FileHeader =
     username = atom.config.get 'file-header.username', scope: (do editor.getRootScopeDescriptor)
     email = atom.config.get 'file-header.email', scope: (do editor.getRootScopeDescriptor)
     copyright = atom.config.get 'file-header.copyright', scope: (do editor.getRootScopeDescriptor)
-    filename = atom.workspace.getActiveTextEditor()?.buffer?.file?.getBaseName();
+    filename = editor.buffer.file.getBaseName()
 
     if filename
-      # fill placeholder {{file_name}}
-      headerTemplate = headerTemplate.replace(/\{\{file_name\}\}/g, filename)
+      # fill placeholder {{filename}}
       headerTemplate = headerTemplate.replace(/\{\{filename\}\}/g, filename)
 
     if copyright
