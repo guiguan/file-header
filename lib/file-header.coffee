@@ -303,7 +303,18 @@ module.exports = FileHeader =
         result.replace('')
       result.stop()
     )
-    buffer.insert([0, 0], newHeader, normalizeLineEndings: true)
+    
+    point = @getBeginningHeaderPoint editor, buffer
+    buffer.insert(point, newHeader, normalizeLineEndings: true)
+
+  getBeginningHeaderPoint: (editor, buffer) ->
+    if editor.getRootScopeDescriptor().getScopesArray()[0] ==  'text.html.php'
+      point = [0, 0]
+      buffer.scan(/^(<\u003Fphp)|^(<\u003f)/, (result) =>
+        point = result.range.start
+        point.row += 1
+      )
+      return point
 
   add: (manual = false) ->
     return unless editor = atom.workspace.getActiveTextEditor()
