@@ -8,18 +8,21 @@
 # See https://atom.io/docs/latest/hacking-atom-package-word-count#menus for more details
 'context-menu':
   'atom-text-editor': [
-    {
-      'label': 'Add File Header'
-      'command': 'file-header:add'
-    },
-    {
-      'label': 'Update File Header'
-      'command': 'file-header:update'
-    },
-    {
-      'label': 'Disable Auto Update'
-      'command': 'file-header:toggleAutoUpdateEnabledStatus'
-    }
+    'label': 'File Header'
+    'submenu': [
+      {
+        'label': 'Add Header'
+        'command': 'file-header:add'
+      },
+      {
+        'label': 'Update Header'
+        'command': 'file-header:update'
+      },
+      {
+        'label': 'Disable Auto Update'
+        'command': 'file-header:toggleAutoUpdateEnabledStatus'
+      }
+    ]
   ]
 'menu': [
   {

@@ -1,8 +1,8 @@
 # @Author: Guan Gui <guiguan>
 # @Date:   2016-02-13T14:15:43+11:00
 # @Email:  root@guiguan.net
-# @Last modified by:   aming
-# @Last modified time: 2016-05-26T15:41:48+08:00
+# @Last modified by:   guiguan
+# @Last modified time: 2016-11-05T16:40:17+11:00
 
 
 
@@ -328,8 +328,14 @@ module.exports = FileHeader =
         itemSet = item
         break
     return unless itemSet
-    toggle = null
+    fileHeader = null
     for item in itemSet.items
+     if item.label is 'File Header'
+       fileHeader = item
+       break
+    return unless fileHeader
+    toggle = null
+    for item in fileHeader.submenu
       if item.command is 'file-header:toggleAutoUpdateEnabledStatus'
         toggle = item
         break
@@ -338,5 +344,3 @@ module.exports = FileHeader =
 
   toggleAutoUpdateEnabledStatus: ->
     atom.config.set('file-header.autoUpdateEnabled', !atom.config.get('file-header.autoUpdateEnabled'))
-    @updateToggleAutoUpdateEnabledStatusMenuItem()
-    @updateToggleAutoUpdateEnabledStatusContextMenuItem()
