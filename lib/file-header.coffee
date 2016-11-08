@@ -196,6 +196,12 @@ module.exports = FileHeader =
     headerTemplate = headerTemplate.replace(new RegExp("#{ @escapeRegExp('{{create_time}}') }", 'g'), creationTime)
     # fill placeholder {{last_modified_time}}
     headerTemplate = headerTemplate.replace(new RegExp("#{ @escapeRegExp(@LAST_MODIFIED_TIME) }", 'g'), currTimeStr)
+    
+    filename = path.parse(editor.getPath()).base
+    if filename
+      # fill placeholder {{filename}}
+      headerTemplate = headerTemplate.replace(/\{\{filename\}\}/g, filename)
+    
     if email
       # fill placeholder {{email}}
       headerTemplate = headerTemplate.replace(/\{\{email\}\}/g, email)
