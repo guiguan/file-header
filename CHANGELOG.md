@@ -3,8 +3,11 @@
 @Date:   2016-01-20T08:29:50+08:00
 @Email:  root@guiguan.net
 @Last modified by:   guiguan
-@Last modified time: 2016-11-08T15:57:53+11:00
+@Last modified time: 2016-11-08T17:42:50+11:00
 -->
+## 1.12.0
+* Added support for filename and copyright information
+
 ## 1.11.0
 * Added support for Kotlin, vue, apex, visualforce and typescript
 

@@ -2,7 +2,7 @@
 # @Date:   2016-02-13T14:15:43+11:00
 # @Email:  root@guiguan.net
 # @Last modified by:   guiguan
-# @Last modified time: 2016-11-08T16:43:24+11:00
+# @Last modified time: 2016-11-08T17:28:23+11:00
 
 
 
@@ -37,51 +37,63 @@ module.exports = FileHeader =
       description: 'Current project name. Leave empty to disable.'
       type: 'string'
       default: ''
+    enableFilename:
+      title: 'Enable Filename'
+      order: 5
+      description: 'Whether to display filename in file header'
+      type: 'boolean'
+      default: false
     license:
       title: 'License'
-      order: 5
+      order: 6
       description: 'Your custom license text. Leave empty to disable.'
+      type: 'string'
+      default: ''
+    copyright:
+      title: 'Copyright'
+      order: 7
+      description: 'Your custom copyright text. Leave empty to disable.'
       type: 'string'
       default: ''
     configDirPath:
       title: 'Config Directory Path'
-      order: 6
+      order: 8
       description: 'Path to the directory that contains your customized File Header <code>lang-mapping.json</code> and <code>templates</code> directory. They will override default ones came with this package.'
       type: 'string'
       default: path.join(atom.config.configDirPath, 'file-header')
     dateTimeFormat:
       title: 'Date Time Format'
-      order: 7
+      order: 9
       description: 'Custom Moment.js format string to be used for date times in file header. For example, <code>DD-MMM-YYYY</code>. Please refer to <a href="http://momentjs.com/docs/#/displaying/format/" target="_blank">Moment.js doc</a> for details.'
       type: 'string'
       default: ''
     useFileCreationTime:
       title: 'Use File Creation Time'
-      order: 8
+      order: 10
       description: 'Use file creation time instead of file header creation time for <code>{{create_time}}</code>.'
       type: 'boolean'
       default: true
     autoUpdateEnabled:
       title: 'Enable Auto Update'
-      order: 9
+      order: 11
       description: 'Auto update file header on saving. Otherwise, you can bind your own key to <code>file-header:update</code> for manually triggering update.'
       type: 'boolean'
       default: true
-    autoAddHeaderOnNewFile:
-      title: 'Enable Auto Add Header on New File'
-      order: 10
-      description: 'Auto add header for new files on creating. Files are considered new if they are empty.'
+    autoAddingHeaderOnNewFile:
+      title: 'Enable Auto Adding Header on New File'
+      order: 12
+      description: 'Auto adding header for new files on creation. Files are considered new if they are empty.'
       type: 'boolean'
       default: true
-    autoAddingHeaderEnabled:
-      title: 'Enable Auto Adding Header on Save'
-      order: 11
+    autoAddingHeaderOnSaving:
+      title: 'Enable Auto Adding Header on Saving'
+      order: 13
       description: 'Auto adding header for new files on saving. Files are considered new if they do not contain any field (e.g. <code>@(Demo) Author:</code>) defined in corresponding template file.'
       type: 'boolean'
       default: true
     ignoreListForAutoUpdateAndAddingHeader:
       title: 'Ignore List for Auto Update and Adding Header'
-      order: 12
+      order: 14
       description: 'List of language scopes to be ignored during auto update and auto adding header. For example, <code>source.gfm, source.css</code> will ignore GitHub Markdown and CSS files.'
       type: 'array'
       default: []
@@ -89,13 +101,13 @@ module.exports = FileHeader =
         type: 'string'
     ignoreCaseInTemplateField:
       title: 'Ignore Case in Template Field'
-      order: 13
+      order: 15
       description: 'When ignored, the template field <code>@(Demo) Last modified by:</code> is considered equivalent to <code>@(Demo) Last Modified by:</code>.'
       type: 'boolean'
       default: true
     numOfEmptyLinesAfterNewHeader:
       title: 'Number of Empty Lines after New Header'
-      order: 14
+      order: 16
       description: 'Number of empty lines should be kept after a new header.'
       type: 'integer'
       default: 3
@@ -137,11 +149,11 @@ module.exports = FileHeader =
       @updateToggleAutoUpdateEnabledStatusContextMenuItem()
 
     atom.workspace.observeTextEditors (editor) =>
-      autoAddHeaderOnNewFile = atom.config.get 'file-header.autoAddHeaderOnNewFile'
+      autoAddingHeaderOnNewFile = atom.config.get 'file-header.autoAddingHeaderOnNewFile'
       # now use `isEmpty` to determine if the file is just __created__
       # however, if an empty file is __open__, we will still try to
       # add the file header automatically
-      if autoAddHeaderOnNewFile && editor.isEmpty() && !@isInIgnoreListForAutoUpdateAndAddingHeader(editor)
+      if autoAddingHeaderOnNewFile && editor.isEmpty() && !@isInIgnoreListForAutoUpdateAndAddingHeader(editor)
         headerTemplate = @getHeaderTemplate editor
         if headerTemplate
           buffer = editor.getBuffer()
@@ -190,16 +202,6 @@ module.exports = FileHeader =
     realname = atom.config.get 'file-header.realname', scope: (do editor.getRootScopeDescriptor)
     username = atom.config.get 'file-header.username', scope: (do editor.getRootScopeDescriptor)
     email = atom.config.get 'file-header.email', scope: (do editor.getRootScopeDescriptor)
-    copyright = atom.config.get 'file-header.copyright', scope: (do editor.getRootScopeDescriptor)
-    filename = editor.buffer.file.getBaseName()
-
-    if filename
-      # fill placeholder {{filename}}
-      headerTemplate = headerTemplate.replace(/\{\{filename\}\}/g, filename)
-
-    if copyright
-      # fill placeholder {{copyright}}
-      headerTemplate = headerTemplate.replace(/\{\{copyright\}\}/g, copyright)
 
     if realname
       author = realname
@@ -224,12 +226,7 @@ module.exports = FileHeader =
     headerTemplate = headerTemplate.replace(new RegExp("#{ @escapeRegExp('{{create_time}}') }", 'g'), creationTime)
     # fill placeholder {{last_modified_time}}
     headerTemplate = headerTemplate.replace(new RegExp("#{ @escapeRegExp(@LAST_MODIFIED_TIME) }", 'g'), currTimeStr)
-    
-    filename = path.parse(editor.getPath()).base
-    if filename
-      # fill placeholder {{filename}}
-      headerTemplate = headerTemplate.replace(/\{\{filename\}\}/g, filename)
-    
+
     if email
       # fill placeholder {{email}}
       headerTemplate = headerTemplate.replace(/\{\{email\}\}/g, email)
@@ -245,6 +242,17 @@ module.exports = FileHeader =
     if license
       # fill placeholder {{license}}
       headerTemplate = headerTemplate.replace(/\{\{license\}\}/g, license)
+
+    copyright = atom.config.get 'file-header.copyright', scope: (do editor.getRootScopeDescriptor)
+    filename = if (atom.config.get 'file-header.enableFilename', scope: (do editor.getRootScopeDescriptor)) then editor.buffer.file.getBaseName() else null
+
+    if filename
+      # fill placeholder {{filename}}
+      headerTemplate = headerTemplate.replace(/\{\{filename\}\}/g, filename)
+
+    if copyright
+      # fill placeholder {{copyright}}
+      headerTemplate = headerTemplate.replace(/\{\{copyright\}\}/g, copyright)
 
     # remove header lines with empty placeholders
     return headerTemplate = headerTemplate.replace(/^.*\{\{\w+\}\}(?:\r\n|\r|\n)/gm, '')
@@ -297,7 +305,7 @@ module.exports = FileHeader =
 
       # update {{last_modified_time}}
       @updateField editor, @LAST_MODIFIED_TIME, headerTemplate, buffer, moment().format(atom.config.get('file-header.dateTimeFormat', scope: (do editor.getRootScopeDescriptor)))
-    else if atom.config.get('file-header.autoAddingHeaderEnabled', scope: (do editor.getRootScopeDescriptor))
+    else if atom.config.get('file-header.autoAddingHeaderOnSaving', scope: (do editor.getRootScopeDescriptor))
       @addHeader(editor, buffer, headerTemplate)
 
   addHeader: (editor, buffer, headerTemplate) ->
