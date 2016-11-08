@@ -2,7 +2,7 @@
 # @Date:   2016-02-13T14:15:43+11:00
 # @Email:  root@guiguan.net
 # @Last modified by:   guiguan
-# @Last modified time: 2016-11-08T15:16:25+11:00
+# @Last modified time: 2016-11-08T16:43:24+11:00
 
 
 
@@ -67,15 +67,21 @@ module.exports = FileHeader =
       description: 'Auto update file header on saving. Otherwise, you can bind your own key to <code>file-header:update</code> for manually triggering update.'
       type: 'boolean'
       default: true
-    autoAddingHeaderEnabled:
-      title: 'Enable Auto Adding Header'
+    autoAddHeaderOnNewFile:
+      title: 'Enable Auto Add Header on New File'
       order: 10
+      description: 'Auto add header for new files on creating. Files are considered new if they are empty.'
+      type: 'boolean'
+      default: true
+    autoAddingHeaderEnabled:
+      title: 'Enable Auto Adding Header on Save'
+      order: 11
       description: 'Auto adding header for new files on saving. Files are considered new if they do not contain any field (e.g. <code>@(Demo) Author:</code>) defined in corresponding template file.'
       type: 'boolean'
       default: true
     ignoreListForAutoUpdateAndAddingHeader:
       title: 'Ignore List for Auto Update and Adding Header'
-      order: 11
+      order: 12
       description: 'List of language scopes to be ignored during auto update and auto adding header. For example, <code>source.gfm, source.css</code> will ignore GitHub Markdown and CSS files.'
       type: 'array'
       default: []
@@ -83,13 +89,13 @@ module.exports = FileHeader =
         type: 'string'
     ignoreCaseInTemplateField:
       title: 'Ignore Case in Template Field'
-      order: 12
+      order: 13
       description: 'When ignored, the template field <code>@(Demo) Last modified by:</code> is considered equivalent to <code>@(Demo) Last Modified by:</code>.'
       type: 'boolean'
       default: true
     numOfEmptyLinesAfterNewHeader:
       title: 'Number of Empty Lines after New Header'
-      order: 13
+      order: 14
       description: 'Number of empty lines should be kept after a new header.'
       type: 'integer'
       default: 3
@@ -118,7 +124,7 @@ module.exports = FileHeader =
         # The timer is used to solve a problem that due to frequent updating,
         # sometimes the username shown in the config UI is not reverted to its
         # default value, though its underlying value is
-        if !@usernameDidChangeTimer
+        if @usernameDidChangeTimer
           clearTimeout(@usernameDidChangeTimer)
           @usernameDidChangeTimer = null
         @usernameDidChangeTimer = setTimeout(() =>
@@ -131,6 +137,17 @@ module.exports = FileHeader =
       @updateToggleAutoUpdateEnabledStatusContextMenuItem()
 
     atom.workspace.observeTextEditors (editor) =>
+      autoAddHeaderOnNewFile = atom.config.get 'file-header.autoAddHeaderOnNewFile'
+      # now use `isEmpty` to determine if the file is just __created__
+      # however, if an empty file is __open__, we will still try to
+      # add the file header automatically
+      if autoAddHeaderOnNewFile && editor.isEmpty() && !@isInIgnoreListForAutoUpdateAndAddingHeader(editor)
+        headerTemplate = @getHeaderTemplate editor
+        if headerTemplate
+          buffer = editor.getBuffer()
+          @addHeader(editor, buffer, headerTemplate)
+          editor.save()
+
       editor.getBuffer().onWillSave =>
         return unless atom.config.get 'file-header.autoUpdateEnabled', scope: (do editor.getRootScopeDescriptor)
         @update()
@@ -173,6 +190,17 @@ module.exports = FileHeader =
     realname = atom.config.get 'file-header.realname', scope: (do editor.getRootScopeDescriptor)
     username = atom.config.get 'file-header.username', scope: (do editor.getRootScopeDescriptor)
     email = atom.config.get 'file-header.email', scope: (do editor.getRootScopeDescriptor)
+    copyright = atom.config.get 'file-header.copyright', scope: (do editor.getRootScopeDescriptor)
+    filename = editor.buffer.file.getBaseName()
+
+    if filename
+      # fill placeholder {{filename}}
+      headerTemplate = headerTemplate.replace(/\{\{filename\}\}/g, filename)
+
+    if copyright
+      # fill placeholder {{copyright}}
+      headerTemplate = headerTemplate.replace(/\{\{copyright\}\}/g, copyright)
+
     if realname
       author = realname
       if username

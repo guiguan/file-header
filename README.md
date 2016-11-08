@@ -3,7 +3,7 @@
 @Date:   2016-01-21T00:47:29+11:00
 @Email:  root@guiguan.net
 @Last modified by:   guiguan
-@Last modified time: 2016-11-08T16:02:14+11:00
+@Last modified time: 2016-11-08T16:37:23+11:00
 -->
 # FileHeader for Atom
 FileHeader allows you to customize, add, update and cooperate your authoring information in header comment like this:
@@ -22,6 +22,19 @@ Just search for `file-header` in Atom `Settings > Install`, and press `Install`.
 
 # Customise Template
 FileHeader came with a pre-defiend language-to-template mappings (`lang-mapping.json`) and bunch of template files (`templates/*`). Check them out in the `lib` directory of FileHeader package. You are free to override or partially override them in your own config directory. Check out the option `Config Directory Path` from FileHeader settings for details.
+
+# Template Variables
+| Variable           | Description                             |
+|--------------------|-----------------------------------------|
+| author             | the name of the author                  |
+| email              | the email of the author                 |
+| project_name       | the name of the current project         |
+| filename           | the name of the file                    |
+| copyright          | the copyright text                      |
+| license            | the license statement                   |
+| create_time        | the time the file is created at         |
+| last_modified_by   | user who last modified the file         |
+| last_modified_time | the time the file is last modified at   |
 
 # Language Specific Setting
 Apart from general configurations in FileHeader's settings, you can also configure everything language specific directly in your `config.cson` file (`Atom > Open Your Config`):
