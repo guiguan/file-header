@@ -3,8 +3,11 @@
 @Date:   2016-01-20T08:29:50+08:00
 @Email:  root@guiguan.net
 @Last modified by:   guiguan
-@Last modified time: 2016-11-08T15:20:19+11:00
+@Last modified time: 2016-11-08T15:57:53+11:00
 -->
+## 1.11.0
+* Added support for Kotlin, vue, apex, visualforce and typescript
+
 ## 1.10.0
 * Improved PHP support
 * Fixed enable/disable auto update toggling bug
