@@ -47,6 +47,7 @@
   "source.strings": "C.tmpl",
   "source.swift": "C.tmpl",
   "source.toml": "ShellScript.tmpl",
+  "source.vue": "HTML.tmpl",
   "source.yaml": "ShellScript.tmpl",
   "source.verilog": "C.tmpl",
   "text.html.basic": "HTML.tmpl",
