@@ -2,8 +2,8 @@
 @Author: Guan Gui <guiguan>
 @Date:   2016-01-21T00:47:29+11:00
 @Email:  root@guiguan.net
-@Last modified by:   Artur Kryczka
-@Last modified time: 2016-09-27
+@Last modified by:   guiguan
+@Last modified time: 2016-11-08T16:02:14+11:00
 -->
 # FileHeader for Atom
 FileHeader allows you to customize, add, update and cooperate your authoring information in header comment like this:
@@ -98,6 +98,7 @@ Here are a list of language-to-template mappings I came up with. Feel free to ma
 |source.strings|C.tmpl|
 |source.swift|C.tmpl|
 |source.toml|ShellScript.tmpl|
+|source.ts|C.tmpl|
 |source.vue|HTML.tmpl|
 |source.yaml|ShellScript.tmpl|
 |source.verilog|C.tmpl|
