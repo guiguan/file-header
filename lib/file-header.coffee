@@ -2,7 +2,7 @@
 # @Date:   2016-02-13T14:15:43+11:00
 # @Email:  root@guiguan.net
 # @Last modified by:   guiguan
-# @Last modified time: 2016-11-08T17:28:23+11:00
+# @Last modified time: 2016-11-08T18:55:40+11:00
 
 
 
@@ -380,17 +380,12 @@ module.exports = FileHeader =
     atom.menu.update()
 
   updateToggleAutoUpdateEnabledStatusContextMenuItem: ->
-    itemSet = null
-    for item in atom.contextMenu.itemSets
-      if item.selector is 'atom-text-editor'
-        itemSet = item
-        break
-    return unless itemSet
     fileHeader = null
-    for item in itemSet.items
-     if item.label is 'File Header'
-       fileHeader = item
-       break
+    for item in atom.contextMenu.itemSets
+      subItem = item.items[0]
+      if subItem.label is 'File Header'
+        fileHeader = subItem
+        break
     return unless fileHeader
     toggle = null
     for item in fileHeader.submenu
