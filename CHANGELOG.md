@@ -3,8 +3,12 @@
 @Date:   2016-01-20T08:29:50+08:00
 @Email:  root@guiguan.net
 @Last modified by:   guiguan
-@Last modified time: 2016-05-13T14:10:22+10:00
+@Last modified time: 2016-11-08T15:20:19+11:00
 -->
+## 1.10.0
+* Improved PHP support
+* Fixed enable/disable auto update toggling bug
+
 ## 1.9.0
 * Added support for Django Python language
 * Added `Enable/Disable Auto Update` in context menu for sake of convenience

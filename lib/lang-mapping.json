@@ -53,7 +53,7 @@
   "text.html.gohtml": "HTML.tmpl",
   "text.html.jsp": "HTML.tmpl",
   "text.html.mustache": "HTML.tmpl",
-  "text.html.php": "HTML.tmpl",
+  "text.html.php": "ShellScript.tmpl",
   "text.html.ruby": "HTML.tmpl",
   "text.plain": "Default.tmpl",
   "text.xml": "HTML.tmpl",

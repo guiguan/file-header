@@ -2,7 +2,7 @@
 # @Date:   2016-02-13T14:15:43+11:00
 # @Email:  root@guiguan.net
 # @Last modified by:   guiguan
-# @Last modified time: 2016-11-05T16:40:17+11:00
+# @Last modified time: 2016-11-08T15:16:25+11:00
 
 
 
@@ -268,7 +268,7 @@ module.exports = FileHeader =
 
   addHeader: (editor, buffer, headerTemplate) ->
     return unless newHeader = @getNewHeader editor, headerTemplate
-    newHeader += "\n".repeat(atom.config.get('file-header.numOfEmptyLinesAfterNewHeader', scope: (do editor.getRootScopeDescriptor)))
+    newHeader += @getCurrentFileLineEnding(buffer).repeat(atom.config.get('file-header.numOfEmptyLinesAfterNewHeader', scope: (do editor.getRootScopeDescriptor)))
     # remove leading empty lines
     buffer.scan(/\s*(?:\r\n|\r|\n)(?=\S)/, (result) =>
       if result.range.start.isEqual([0, 0])
@@ -276,17 +276,33 @@ module.exports = FileHeader =
       result.stop()
     )
 
-    point = @getBeginningHeaderPoint editor, buffer
+    [point, newHeader] = @execPreAddHeaderHooks editor, buffer, newHeader
     buffer.insert(point, newHeader, normalizeLineEndings: true)
 
-  getBeginningHeaderPoint: (editor, buffer) ->
-    if editor.getRootScopeDescriptor().getScopesArray()[0] ==  'text.html.php'
-      point = [0, 0]
+  getDefaultLineEnding: ->
+    switch atom.config.get('line-ending-selector.defaultLineEnding')
+      when 'LF' then return '\n'
+      when 'CRLF' then return '\r\n'
+      else return if process.platform is 'win32' then '\r\n' else '\n'
+
+  getCurrentFileLineEnding: (buffer) ->
+    lineEnding = buffer.lineEndingForRow(0)
+    if lineEnding is ''
+      return @getDefaultLineEnding()
+    return lineEnding
+
+  execPreAddHeaderHooks: (editor, buffer, newHeader) ->
+    point = [0, 0]
+    if editor.getRootScopeDescriptor().getScopesArray()[0] is 'text.html.php'
       buffer.scan(/^(<\u003Fphp)|^(<\u003f)/, (result) =>
         point = result.range.start
         point.row += 1
+        result.stop();
       )
-      return point
+      if point[0] is 0 and point[1] is 0
+        # <?php or <? is not presented in current file, add <?php
+        newHeader = "<?php#{@getCurrentFileLineEnding buffer}#{newHeader}"
+    return [point, newHeader]
 
   add: (manual = false) ->
     return unless editor = atom.workspace.getActiveTextEditor()
