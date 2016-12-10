@@ -3,7 +3,7 @@
 @Date:   2016-01-21T00:47:29+11:00
 @Email:  root@guiguan.net
 @Last modified by:   guiguan
-@Last modified time: 2016-11-08T17:44:49+11:00
+@Last modified time: 2016-12-11T03:45:22+11:00
 -->
 # FileHeader for Atom
 FileHeader allows you to customize, add, update and cooperate your authoring information in header comment like this:
@@ -21,7 +21,7 @@ Just search for `file-header` in Atom `Settings > Install`, and press `Install`.
 3. Just hit <kbd>cmd-s</kbd> to save and your header's last modified info will be automatically updated.
 
 # Upgrade
-Please reload Atom either by <kbd>ctrl+alt+cmd+r</kbd> or restarting after each upgrade
+Please reload Atom either by <kbd>ctrl+alt+cmd+l</kbd> or restarting after each upgrade
 
 # Customise Template
 FileHeader came with a pre-defiend language-to-template mappings (`lang-mapping.json`) and bunch of template files (`templates/*`). Check them out in the `lib` directory of FileHeader package. You are free to override or partially override them in your own config directory. Check out the option `Config Directory Path` from FileHeader settings for details.
@@ -84,6 +84,7 @@ Here are a list of language-to-template mappings I came up with. Feel free to ma
 |source.go|C.tmpl|
 |source.gotemplate|GoTemplate.tmpl|
 |source.haskell|Haskell.tmpl|
+|source.jade|Pug.tmpl|
 |source.java|C.tmpl|
 |source.java-properties|ShellScript.tmpl|
 |source.js|C.tmpl|
@@ -100,6 +101,7 @@ Here are a list of language-to-template mappings I came up with. Feel free to ma
 |source.perl|ShellScript.tmpl|
 |source.perl6|ShellScript.tmpl|
 |source.plist|HTML.tmpl|
+|source.pug|Pug.tmpl|
 |source.python|ShellScript.tmpl|
 |source.python.django|ShellScript.tmpl|
 |source.ruby|ShellScript.tmpl|

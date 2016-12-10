@@ -3,8 +3,12 @@
 @Date:   2016-01-20T08:29:50+08:00
 @Email:  root@guiguan.net
 @Last modified by:   guiguan
-@Last modified time: 2016-11-08T18:56:32+11:00
+@Last modified time: 2016-12-11T03:43:28+11:00
 -->
+
+## 1.13.0
+* Added support for Jade/Pug
+
 ## 1.12.1
 * Resolved an enable/disable auto update context menu toggling bug
 
