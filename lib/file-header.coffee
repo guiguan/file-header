@@ -2,7 +2,7 @@
 # @Date:   2016-02-13T14:15:43+11:00
 # @Email:  root@guiguan.net
 # @Last modified by:   guiguan
-# @Last modified time: 2016-11-08T18:55:40+11:00
+# @Last modified time: 2017-01-22T17:54:05+11:00
 
 
 
@@ -76,7 +76,7 @@ module.exports = FileHeader =
     autoUpdateEnabled:
       title: 'Enable Auto Update'
       order: 11
-      description: 'Auto update file header on saving. Otherwise, you can bind your own key to <code>file-header:update</code> for manually triggering update.'
+      description: 'Auto update file header on saving. Otherwise, you can bind your own key to <code>file-header:update</code> for manually triggering update. This is a master switch for following related options.'
       type: 'boolean'
       default: true
     autoAddingHeaderOnNewFile:
@@ -149,11 +149,10 @@ module.exports = FileHeader =
       @updateToggleAutoUpdateEnabledStatusContextMenuItem()
 
     atom.workspace.observeTextEditors (editor) =>
-      autoAddingHeaderOnNewFile = atom.config.get 'file-header.autoAddingHeaderOnNewFile'
       # now use `isEmpty` to determine if the file is just __created__
       # however, if an empty file is __open__, we will still try to
       # add the file header automatically
-      if autoAddingHeaderOnNewFile && editor.isEmpty() && !@isInIgnoreListForAutoUpdateAndAddingHeader(editor)
+      if (atom.config.get 'file-header.autoUpdateEnabled', scope: (do editor.getRootScopeDescriptor)) && (atom.config.get 'file-header.autoAddingHeaderOnNewFile', scope: (do editor.getRootScopeDescriptor)) && editor.isEmpty() && !@isInIgnoreListForAutoUpdateAndAddingHeader(editor)
         headerTemplate = @getHeaderTemplate editor
         if headerTemplate
           buffer = editor.getBuffer()
@@ -382,6 +381,7 @@ module.exports = FileHeader =
   updateToggleAutoUpdateEnabledStatusContextMenuItem: ->
     fileHeader = null
     for item in atom.contextMenu.itemSets
+      return unless item.items.length > 0
       subItem = item.items[0]
       if subItem.label is 'File Header'
         fileHeader = subItem

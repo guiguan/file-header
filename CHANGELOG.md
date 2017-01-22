@@ -3,8 +3,12 @@
 @Date:   2016-01-20T08:29:50+08:00
 @Email:  root@guiguan.net
 @Last modified by:   guiguan
-@Last modified time: 2016-12-11T03:43:28+11:00
+@Last modified time: 2017-01-22T17:55:33+11:00
 -->
+
+## 1.13.1
+* Fixed a problem that could cause activation failure
+* Made Enable Auto Update a master switch for Enable Auto Adding Header on New File and Enable Auto Adding Header on Saving
 
 ## 1.13.0
 * Added support for Jade/Pug
