@@ -2,7 +2,7 @@
 # @Date:   2016-02-13T14:15:43+11:00
 # @Email:  root@guiguan.net
 # @Last modified by:   guiguan
-# @Last modified time: 2017-01-22T17:54:05+11:00
+# @Last modified time: 2017-02-27T23:30:03+11:00
 
 
 
@@ -295,6 +295,16 @@ module.exports = FileHeader =
     buffer = editor.getBuffer()
     return unless headerTemplate = @getHeaderTemplate editor
 
+    lastCheckpoint = buffer.createCheckpoint()
+    undoStackLen = buffer.history.undoStack.length
+    if undoStackLen > 1
+      # move checkpoint to before last transaction
+      lastTranscationIdx = undoStackLen - 2
+      lastCheckpointIdx = undoStackLen - 1
+      lastTranscation = buffer.history.undoStack[lastTranscationIdx]
+      buffer.history.undoStack[lastTranscationIdx] = buffer.history.undoStack[lastCheckpointIdx]
+      buffer.history.undoStack[lastCheckpointIdx] = lastTranscation
+
     if @hasHeader(editor, buffer, headerTemplate)
       # update {{last_modified_by}}
       realname = atom.config.get 'file-header.realname', scope: (do editor.getRootScopeDescriptor)
@@ -306,6 +316,8 @@ module.exports = FileHeader =
       @updateField editor, @LAST_MODIFIED_TIME, headerTemplate, buffer, moment().format(atom.config.get('file-header.dateTimeFormat', scope: (do editor.getRootScopeDescriptor)))
     else if atom.config.get('file-header.autoAddingHeaderOnSaving', scope: (do editor.getRootScopeDescriptor))
       @addHeader(editor, buffer, headerTemplate)
+      
+    buffer.groupChangesSinceCheckpoint(lastCheckpoint)
 
   addHeader: (editor, buffer, headerTemplate) ->
     return unless newHeader = @getNewHeader editor, headerTemplate
