@@ -6,6 +6,9 @@
 @Last modified time: 2017-01-22T17:55:33+11:00
 -->
 
+## 1.13.3
+* Fixed default template for JS
+
 ## 1.13.2
 * Fixed an [issue](https://github.com/guiguan/file-header/issues/33) that <kbd>cmd+z</kbd> is reverting file header changes only instead of actual code changes
 
