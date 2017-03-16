@@ -1,7 +1,7 @@
 {
   "name": "file-header",
   "main": "./lib/file-header",
-  "version": "1.13.2",
+  "version": "1.13.3",
   "description": "Customize, add, update and cooperate your authoring information in header comment",
   "author": {
     "name": "Guan Gui",
