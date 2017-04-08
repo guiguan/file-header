@@ -129,6 +129,7 @@ Here are a list of language-to-template mappings I came up with. Feel free to ma
 |text.html.php|HTML.tmpl|
 |text.html.ruby|HTML.tmpl|
 |text.plain|Default.tmpl|
+|text.plain.null-grammar|Default.tmpl|
 |text.xml|HTML.tmpl|
 |text.xml.plist|HTML.tmpl|
 |text.xml.xsl|HTML.tmpl|

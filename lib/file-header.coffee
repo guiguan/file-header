@@ -2,7 +2,7 @@
 # @Date:   2016-02-13T14:15:43+11:00
 # @Email:  root@guiguan.net
 # @Last modified by:   guiguan
-# @Last modified time: 2017-02-27T23:30:03+11:00
+# @Last modified time: 2017-04-08T12:32:29+10:00
 
 
 
@@ -96,7 +96,7 @@ module.exports = FileHeader =
       order: 14
       description: 'List of language scopes to be ignored during auto update and auto adding header. For example, <code>source.gfm, source.css</code> will ignore GitHub Markdown and CSS files.'
       type: 'array'
-      default: []
+      default: ['text.plain.null-grammar', 'text.html.basic', 'source.gfm']
       items:
         type: 'string'
     ignoreCaseInTemplateField:
@@ -157,7 +157,7 @@ module.exports = FileHeader =
         if headerTemplate
           buffer = editor.getBuffer()
           @addHeader(editor, buffer, headerTemplate)
-          editor.save()
+          editor.save() if editor.getPath()
 
       editor.getBuffer().onWillSave =>
         return unless atom.config.get 'file-header.autoUpdateEnabled', scope: (do editor.getRootScopeDescriptor)
@@ -243,7 +243,7 @@ module.exports = FileHeader =
       headerTemplate = headerTemplate.replace(/\{\{license\}\}/g, license)
 
     copyright = atom.config.get 'file-header.copyright', scope: (do editor.getRootScopeDescriptor)
-    filename = if (atom.config.get 'file-header.enableFilename', scope: (do editor.getRootScopeDescriptor)) then editor.buffer.file.getBaseName() else null
+    filename = if (atom.config.get 'file-header.enableFilename', scope: (do editor.getRootScopeDescriptor)) then (if editor.buffer.file then editor.buffer.file.getBaseName()) else null
 
     if filename
       # fill placeholder {{filename}}

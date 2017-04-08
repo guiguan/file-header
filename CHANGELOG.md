@@ -6,6 +6,10 @@
 @Last modified time: 2017-01-22T17:55:33+11:00
 -->
 
+## 1.13.4
+* Fixed filename related issue
+* Improved default behaviour on adding headers for plain text files
+
 ## 1.13.3
 * Fixed default template for JS
 
