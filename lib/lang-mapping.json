@@ -14,7 +14,6 @@
   "source.css.less": "C.tmpl",
   "source.css.scss": "SASS.tmpl",
   "source.csx": "C.tmpl",
-  
   "source.erlang": "Erlang.tmpl",
   "source.gfm": "HTML.tmpl",
   "source.git-config": "ShellScript.tmpl",
