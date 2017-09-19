@@ -12,6 +12,7 @@
   "source.css.less": "C.tmpl",
   "source.css.scss": "SASS.tmpl",
   "source.csx": "C.tmpl",
+  "source.bat": "batch.tmpl",
   "source.erlang": "Erlang.tmpl",
   "source.gfm": "HTML.tmpl",
   "source.git-config": "ShellScript.tmpl",
@@ -67,4 +68,5 @@
   "text.xml": "HTML.tmpl",
   "text.xml.plist": "HTML.tmpl",
   "text.xml.xsl": "HTML.tmpl"
+
 }
