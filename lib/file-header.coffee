@@ -296,14 +296,14 @@ module.exports = FileHeader =
     return unless headerTemplate = @getHeaderTemplate editor
 
     lastCheckpoint = buffer.createCheckpoint()
-    undoStackLen = buffer.history.undoStack.length
+    undoStackLen = buffer.historyProvider.undoStack.length
     if undoStackLen > 1
       # move checkpoint to before last transaction
       lastTranscationIdx = undoStackLen - 2
       lastCheckpointIdx = undoStackLen - 1
-      lastTranscation = buffer.history.undoStack[lastTranscationIdx]
-      buffer.history.undoStack[lastTranscationIdx] = buffer.history.undoStack[lastCheckpointIdx]
-      buffer.history.undoStack[lastCheckpointIdx] = lastTranscation
+      lastTranscation = buffer.historyProvider.undoStack[lastTranscationIdx]
+      buffer.historyProvider.undoStack[lastTranscationIdx] = buffer.historyProvider.undoStack[lastCheckpointIdx]
+      buffer.historyProvider.undoStack[lastCheckpointIdx] = lastTranscation
 
     if @hasHeader(editor, buffer, headerTemplate)
       # update {{last_modified_by}}
