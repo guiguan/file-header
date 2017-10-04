@@ -3,6 +3,8 @@
   "source.c": "C.tmpl",
   "source.apex": "C.tmpl",
   "source.cake": "C.tmpl",
+  "source.bat": "batch.tmpl",
+  "source.cmd": "batch.tmpl",
   "source.clojure": "Clojure.tmpl",
   "source.coffee": "ShellScript.tmpl",
   "source.coffee.jsx": "ShellScript.tmpl",
