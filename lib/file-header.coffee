@@ -296,14 +296,15 @@ module.exports = FileHeader =
     return unless headerTemplate = @getHeaderTemplate editor
 
     lastCheckpoint = buffer.createCheckpoint()
-    undoStackLen = buffer.history.undoStack.length
+    history = buffer.getHistory()
+    undoStackLen = history.undoStack.length
     if undoStackLen > 1
       # move checkpoint to before last transaction
       lastTranscationIdx = undoStackLen - 2
       lastCheckpointIdx = undoStackLen - 1
-      lastTranscation = buffer.history.undoStack[lastTranscationIdx]
-      buffer.history.undoStack[lastTranscationIdx] = buffer.history.undoStack[lastCheckpointIdx]
-      buffer.history.undoStack[lastCheckpointIdx] = lastTranscation
+      lastTranscation = history.undoStack[lastTranscationIdx]
+      history.undoStack[lastTranscationIdx] = history.undoStack[lastCheckpointIdx]
+      history.undoStack[lastCheckpointIdx] = lastTranscation
 
     if @hasHeader(editor, buffer, headerTemplate)
       # update {{last_modified_by}}
@@ -316,7 +317,7 @@ module.exports = FileHeader =
       @updateField editor, @LAST_MODIFIED_TIME, headerTemplate, buffer, moment().format(atom.config.get('file-header.dateTimeFormat', scope: (do editor.getRootScopeDescriptor)))
     else if atom.config.get('file-header.autoAddingHeaderOnSaving', scope: (do editor.getRootScopeDescriptor))
       @addHeader(editor, buffer, headerTemplate)
-      
+
     buffer.groupChangesSinceCheckpoint(lastCheckpoint)
 
   addHeader: (editor, buffer, headerTemplate) ->
