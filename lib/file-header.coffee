@@ -2,7 +2,7 @@
 # @Date:   2016-02-13T14:15:43+11:00
 # @Email:  root@guiguan.net
 # @Last modified by:   guiguan
-# @Last modified time: 2017-10-05T10:42:48+11:00
+# @Last modified time: 2017-10-16T20:47:37+11:00
 
 
 
@@ -296,7 +296,7 @@ module.exports = FileHeader =
     return unless headerTemplate = @getHeaderTemplate editor
 
     lastCheckpoint = buffer.createCheckpoint()
-    history = buffer.getHistory()
+    history = buffer.getHistory() || buffer.historyProvider || buffer.history
     undoStackLen = history.undoStack.length
     if undoStackLen > 1
       # move checkpoint to before last transaction
