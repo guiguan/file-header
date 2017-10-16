@@ -1,4 +1,4 @@
-## 1.13.6
+## 1.13.7
 * Made previous history fix backward compatible
 
 ## 1.13.5
