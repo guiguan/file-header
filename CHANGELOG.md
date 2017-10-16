@@ -1,10 +1,5 @@
-<!--
-@Author: Guan Gui <guiguan>
-@Date:   2016-01-20T08:29:50+08:00
-@Email:  root@guiguan.net
-@Last modified by:   guiguan
-@Last modified time: 2017-01-22T17:55:33+11:00
--->
+## 1.13.6
+* Made previous history fix backward compatible
 
 ## 1.13.5
 * Fixed history bug for newer Atom version
