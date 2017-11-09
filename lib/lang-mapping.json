@@ -68,5 +68,6 @@
   "text.plain.null-grammar": "Default.tmpl",
   "text.xml": "HTML.tmpl",
   "text.xml.plist": "HTML.tmpl",
+  "text.html.vue": "HTML.tmpl",
   "text.xml.xsl": "HTML.tmpl"
 }
