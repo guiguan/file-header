@@ -1,3 +1,6 @@
+## 1.13.8
+* Added support for Vue
+
 ## 1.13.7
 * Made previous history fix backward compatible
 
