@@ -1,3 +1,6 @@
+## 1.13.9
+* Minor fix to support Atom 1.25.0-beta0
+
 ## 1.13.8
 * Added support for Vue
 

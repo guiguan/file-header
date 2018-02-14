@@ -2,7 +2,7 @@
 # @Date:   2016-02-13T14:15:43+11:00
 # @Email:  root@guiguan.net
 # @Last modified by:   guiguan
-# @Last modified time: 2017-10-16T21:07:44+11:00
+# @Last modified time: 2018-02-14T11:28:22+11:00
 
 
 
@@ -60,7 +60,7 @@ module.exports = FileHeader =
       order: 8
       description: 'Path to the directory that contains your customized File Header <code>lang-mapping.json</code> and <code>templates</code> directory. They will override default ones came with this package.'
       type: 'string'
-      default: path.join(atom.config.configDirPath, 'file-header')
+      default: path.join(atom.config.configDirPath || path.dirname(atom.config.getUserConfigPath()), 'file-header')
     dateTimeFormat:
       title: 'Date Time Format'
       order: 9

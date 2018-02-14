@@ -5,7 +5,7 @@
 @Last modified by:   guiguan
 @Last modified time: 2016-02-13T14:02:21+08:00
 -->
-Copyright (c) 2016 Guan Gui
+Copyright (c) 2016-2018 Guan Gui
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
